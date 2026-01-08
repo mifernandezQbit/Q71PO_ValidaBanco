@@ -1,0 +1,10 @@
+{
+    "iban": "ES2100496974372110046283",
+    "token": "044w1+saB0sc/DusFA+Le69fqtVXallMa4G7hmzqZhzMAE=MDE5MDEzODg0ODQ4NTMwOTc0ODgzOTE0MjE3Mi4zMC4zMC4xOTIxNzY3ODg4NTU4MjYw",
+    "rolesJDE": [
+        {
+            "rol": "ABA_SOL"
+        }
+    ],
+    "seguridadInclusiva": true
+}

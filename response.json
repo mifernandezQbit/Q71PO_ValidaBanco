@@ -1,0 +1,15 @@
+{
+	"success": true,
+	"data": null,
+	"rowset": {
+		"flagValidacion": "1",
+		"codigoError": " ",
+		"jde__status": "SUCCESS",
+		"jde__startTimestamp": "2026-01-08T13:09:51.403-0300",
+		"jde__endTimestamp": "2026-01-08T13:09:51.609-0300",
+		"jde__serverExecutionSeconds": 0.206
+	},
+	"errorJde": false,
+	"tokenExpirado": false,
+	"errorsList": null
+}
