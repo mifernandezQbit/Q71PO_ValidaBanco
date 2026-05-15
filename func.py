@@ -5,9 +5,8 @@ import logging
 import requests
 
 from fdk import response
-
-from utilidades.seguridad.core import verificarSeguridadMCU
-
+## Nueva función para identificar errores
+from utilidades.errores.core import extraerErroresV2
 
 def handler(ctx, data: io.BytesIO = None):
     try:
@@ -32,8 +31,7 @@ def handler(ctx, data: io.BytesIO = None):
         }
     else:
         respJson = procesarRespuesta(
-            respJson,
-            params["seguridadInclusiva"] if "seguridadInclusiva" in params else False,
+            respJson
         )
 
     return response.Response(
@@ -54,22 +52,17 @@ def sendQuery(params, urlOrc):
     return resp
 
 
-def procesarRespuesta(respuesta, seguridadInclusiva):
+def procesarRespuesta(respuesta):
     resultado = {}
     if "jde__status" in respuesta:
         if (respuesta["jde__status"]).strip() == "SUCCESS" or (
             respuesta["jde__status"].strip() == "WARN"
         ):
-            ## tomar el rango de centros de costos devuelto para validar seguridad por MCU
-            rangoMCU = []
-            if "rangoMCU" in respuesta:
-                rangoMCU = respuesta["rangoMCU"]
-
             # devuelvo respuesta
             resultado = {
                 "success": True,
                 "data": None,
-                "rowset": respuesta,  ## transformarRespuesta(respuesta,seguridadInclusiva,rangoMCU ),
+                "rowset": respuesta,
                 "errorJde": False,
                 "tokenExpirado": False,
                 "errorsList": None,
@@ -79,7 +72,7 @@ def procesarRespuesta(respuesta, seguridadInclusiva):
                 "success": True,
                 "rowset": None,
                 "data": None,
-                "errorJde": False,
+                "errorJde": True,
                 "tokenExpirado": False,
                 "errorsList": respuesta,
             }
@@ -95,7 +88,7 @@ def procesarRespuesta(respuesta, seguridadInclusiva):
 
     return resultado
 
-
+'''
 def extraerErrores(respuesta):
     errorsList = []
 
@@ -137,8 +130,7 @@ def extraerErrores(respuesta):
                                         }
                                         # Agregar el error a la lista de errores
                                         errorsList.append(errorInfo)
-                                        logging.getLogger().info("**** Error List ****")
-                                        logging.getLogger().info(errorsList)
+                                
                 elif isinstance(value, dict) and "message" in value:
                     errorsList.extend(extraerErrores(value))
         else:
@@ -146,26 +138,9 @@ def extraerErrores(respuesta):
             # Agregar el diccionario a la lista de errores
             errorsList.append(infoError)
     return errorsList
-
+'''
 
 ## Función para revisar los errores que retornó la orquestación y normalizarlos en una lista única
 def procesarErrores(respuesta):
-    errorsList = extraerErrores(respuesta)
-    logging.getLogger().info(errorsList)
+    errorsList = extraerErroresV2(respuesta) #extraerErrores(respuesta)
     return errorsList
-
-
-def transformarRespuesta(lista, seguridadInclusiva, rangoMCU):
-    listaEditada = []
-    for respuesta in lista:
-        ## excluyo retenciones
-        if len(rangoMCU) > 0:
-            if "unidadNegocio" in respuesta and verificarSeguridadMCU(
-                respuesta["unidadNegocio"], seguridadInclusiva, rangoMCU
-            ):
-                listaEditada.append(respuesta)
-        else:
-            ## No está configurada en jde seguridad por centro de costos, se incluye registro
-            listaEditada.append(respuesta)
-
-    return listaEditada

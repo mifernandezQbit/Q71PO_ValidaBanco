@@ -1,10 +1,5 @@
-{
-    "iban": "",
-    "token": "044w1+saB0sc/DusFA+Le69fqtVXallMa4G7hmzqZhzMAE=MDE5MDEzODg0ODQ4NTMwOTc0ODgzOTE0MjE3Mi4zMC4zMC4xOTIxNzY3ODg4NTU4MjYw",
-    "rolesJDE": [
-        {
-            "rol": "ABA_SOL"
-        }
-    ],
-    "seguridadInclusiva": true
-}
+
+    {
+        "token": "044pV9yYUSexchmx6WtuTCrbWOqs+OB54on6RQLC+igezg=MDE4MDEyMTA1MDU0MTI4MjY5NTYzNzY0MTcyLjMwLjMwLjU3MTc3ODUwODY3NTk3Ng==",
+        "iban": "34435345"
+    }
