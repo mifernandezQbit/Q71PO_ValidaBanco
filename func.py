@@ -74,7 +74,7 @@ def procesarRespuesta(respuesta):
                 "data": None,
                 "errorJde": True,
                 "tokenExpirado": False,
-                "errorsList": respuesta,
+                "errorsList": procesarErrores(respuesta),
             }
     else:
         resultado = {
